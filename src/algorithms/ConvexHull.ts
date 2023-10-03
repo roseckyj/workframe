@@ -15,6 +15,11 @@ export class ConvexHull extends AbstractAlgorithm {
             return true;
         }
 
+        if (this.workframe.points.length === 1) {
+            this.hull.push(this.workframe.points[0]);
+            return true;
+        }
+
         let currentY = this.workframe.points[0].y;
         this.currentPoint = this.workframe.points[0];
         for (const point of this.workframe.points) {
