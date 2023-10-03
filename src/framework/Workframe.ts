@@ -68,9 +68,13 @@ export class Workframe {
         this.algorithm = new algorithms[this.appState.selectedAlgorithm](this);
         this.appState.setAlgorithmFinished(false);
         this.appState.resetAlgorithmStep();
-        this.algorithm!.setup();
+        const setupResult = this.algorithm!.setup();
         this.clearGeometries();
         this.algorithm!.draw();
+
+        if (setupResult) {
+            this.appState.setAlgorithmFinished(true);
+        }
     }
 
     public step(): void {
@@ -84,6 +88,11 @@ export class Workframe {
         this.appState.setAlgorithmFinished(this.algorithm.step());
         this.appState.incrementAlgorithmStep();
         this.algorithm.draw();
+
+        if (this.appState.algorithmFinished) {
+            this.clearGeometries();
+            this.algorithm.draw();
+        }
     }
 
     public run(): void {

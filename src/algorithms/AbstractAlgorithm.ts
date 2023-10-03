@@ -17,7 +17,7 @@ export abstract class AbstractAlgorithm {
     /**
      * Sets up the algorithm.
      */
-    public abstract setup(): void;
+    public abstract setup(): boolean;
 
     /**
      * Draws a single frame of the algorithm.

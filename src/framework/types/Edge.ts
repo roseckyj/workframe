@@ -8,7 +8,7 @@ export class Edge extends AbstractGeometry {
     public start: Point;
     public end: Point;
 
-    constructor(start: Point, end: Point, color: number = 150) {
+    constructor(start: Point, end: Point, color?: P5.Color) {
         super(color);
 
         this.start = start;
@@ -46,7 +46,7 @@ export class Edge extends AbstractGeometry {
             p5
         );
 
-        p5.stroke(this.color);
+        p5.stroke(this.color || p5.color(100));
         p5.strokeWeight(2);
         p5.noFill();
         p5.line(start.x, start.y, end.x, end.y);

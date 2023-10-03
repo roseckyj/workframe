@@ -18,8 +18,10 @@ export interface IAppProps {
 
 function App({ workframe, appState }: IAppProps) {
     function sketch(p5: P5) {
-        p5.setup = () =>
+        p5.setup = () => {
             p5.createCanvas(p5.windowWidth, p5.windowHeight, p5.P2D);
+            appState.p5 = p5;
+        };
 
         p5.draw = () => {
             p5.background(20);

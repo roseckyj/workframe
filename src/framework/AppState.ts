@@ -1,6 +1,5 @@
 import { action, makeObservable, observable, runInAction } from "mobx";
-import p5 from "p5";
-import { Point } from "./types/Point";
+import P5 from "p5";
 
 export enum Tool {
     Pan = "pan",
@@ -15,7 +14,7 @@ export class AppState {
     }
 
     @observable
-    public position: p5.Vector = new p5.Vector(0, 0);
+    public position: P5.Vector = new P5.Vector(0, 0);
 
     @observable
     public scale: number = 1;
@@ -88,7 +87,7 @@ export class AppState {
     }
 
     @action
-    public async drag(delta: p5.Vector): Promise<void> {
+    public async drag(delta: P5.Vector): Promise<void> {
         runInAction(() => {
             this.position.add(delta.mult(1 / this.scale));
         });
@@ -106,16 +105,18 @@ export class AppState {
     @action
     public async reset(): Promise<void> {
         runInAction(() => {
-            this.position = new p5.Vector(0, 0);
+            this.position = new P5.Vector(0, 0);
             this.scale = 1;
         });
     }
 
-    public transform(vector: p5.Vector): p5.Vector {
+    public transform(vector: P5.Vector): P5.Vector {
         return vector.copy().sub(this.position).mult(this.scale);
     }
 
-    public reverseTransform(vector: p5.Vector): p5.Vector {
+    public reverseTransform(vector: P5.Vector): P5.Vector {
         return vector.copy().div(this.scale).add(this.position);
     }
+
+    public p5!: P5;
 }

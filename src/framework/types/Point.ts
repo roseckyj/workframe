@@ -7,7 +7,7 @@ export class Point extends AbstractGeometry {
     public x: number;
     public y: number;
 
-    constructor(x: number, y: number, color: number = 150) {
+    constructor(x: number, y: number, color?: P5.Color) {
         super(color);
 
         this.x = x;
@@ -39,7 +39,16 @@ export class Point extends AbstractGeometry {
     }
 
     public angleBetween(point: Point): number {
-        return Math.atan2(point.y, point.x) - Math.atan2(this.y, this.x);
+        const angle1 =
+            (Math.atan2(point.y, point.x) + Math.PI * 2) % (Math.PI * 2);
+        const angle2 =
+            (Math.atan2(this.y, this.x) + Math.PI * 2) % (Math.PI * 2);
+
+        if (angle1 > angle2) {
+            return angle1 - angle2;
+        } else {
+            return angle1 + Math.PI * 2 - angle2;
+        }
     }
 
     public distance(point: Point): number {
@@ -75,7 +84,7 @@ export class Point extends AbstractGeometry {
         );
 
         p5.noStroke();
-        p5.fill(this.color);
+        p5.fill(this.color || p5.color(100));
         p5.circle(transformed.x, transformed.y, 10);
     }
 }
