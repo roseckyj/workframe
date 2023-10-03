@@ -1,0 +1,1 @@
+{"version":3,"file":"static/css/main.dda167d3.css","mappings":"AAAA,EACI,qBACJ,CAEA,KACI,QAAS,CAET,eAAgB,CADhB,SAEJ","sources":["framework/styles/index.css"],"sourcesContent":["* {\r\n    box-sizing: border-box;\r\n}\r\n\r\nbody {\r\n    margin: 0;\r\n    padding: 0;\r\n    overflow: hidden;\r\n}\r\n"],"names":[],"sourceRoot":""}
