@@ -1,10 +1,7 @@
-import { AbstractAlgorithm } from "../../algorithms/AbstractAlgorithm";
+import { algorithms } from "../../algorithms/algorithms";
 
-export function getAlgorithmSource(
-    algorithm: typeof AbstractAlgorithm
-): string {
-    const raw = require(`!!raw-loader!/src/algorithms/${algorithm.name}.ts`)
-        .default as string;
+export function getAlgorithmSource(name: string): string {
+    const raw = algorithms[name].source;
 
     const deWindowsed = raw.replaceAll("\r\n", "\n");
 

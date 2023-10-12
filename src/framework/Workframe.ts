@@ -65,7 +65,9 @@ export class Workframe {
             return;
         }
 
-        this.algorithm = new algorithms[this.appState.selectedAlgorithm](this);
+        this.algorithm = new algorithms[this.appState.selectedAlgorithm].class(
+            this
+        );
         this.appState.setAlgorithmFinished(false);
         this.appState.resetAlgorithmStep();
         const setupResult = this.algorithm!.setup();

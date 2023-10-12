@@ -148,7 +148,7 @@ function App({ workframe, appState }: IAppProps) {
                     language="typescript"
                     style={stackoverflowDark}
                 >
-                    {getAlgorithmSource(algorithms[appState.selectedAlgorithm])}
+                    {getAlgorithmSource(appState.selectedAlgorithm)}
                 </SyntaxHighlighter>
                 <IconButton
                     position="fixed"
