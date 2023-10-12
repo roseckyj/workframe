@@ -2,8 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./framework/App";
 import { Workframe, WorkframeConfig } from "./framework/Workframe";
-import { ConvexHull } from "./algorithms/ConvexHull";
-import { ChakraProvider, ColorModeScript, theme } from "@chakra-ui/react";
+import { ChakraProvider, theme } from "@chakra-ui/react";
 import { algorithms } from "./algorithms/algorithms";
 
 const config: WorkframeConfig = {
@@ -16,7 +15,6 @@ const workframe = new Workframe(config);
 
 const appState = workframe.appState;
 appState.setSelectedAlgorithm(Object.keys(algorithms)[0]);
-workframe.resetAlgorithm();
 
 const root = ReactDOM.createRoot(
     document.getElementById("root") as HTMLElement

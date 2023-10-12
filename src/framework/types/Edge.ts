@@ -19,12 +19,16 @@ export class Edge extends AbstractGeometry {
         return this.start.distance(this.end);
     }
 
-    public deepCopy(): Edge {
-        return new Edge(this.start.copy(), this.end.copy());
+    public deepCopy(color?: P5.Color): Edge {
+        return new Edge(
+            this.start.copy(),
+            this.end.copy(),
+            color || this.color
+        );
     }
 
-    public copy(): Edge {
-        return new Edge(this.start, this.end);
+    public copy(color?: P5.Color): Edge {
+        return new Edge(this.start, this.end, color || this.color);
     }
 
     public equals(edge: Edge): boolean {

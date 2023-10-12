@@ -29,12 +29,15 @@ export class Polygon extends AbstractGeometry {
         }, 0);
     }
 
-    public deepCopy(): Polygon {
-        return new Polygon(this.points.map((p) => p.copy()));
+    public deepCopy(color?: P5.Color): Polygon {
+        return new Polygon(
+            this.points.map((p) => p.copy()),
+            color || this.color
+        );
     }
 
-    public copy(): Polygon {
-        return new Polygon(this.points);
+    public copy(color?: P5.Color): Polygon {
+        return new Polygon(this.points, color || this.color);
     }
 
     public equals(polygon: Polygon): boolean {

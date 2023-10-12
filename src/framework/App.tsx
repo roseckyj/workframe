@@ -10,6 +10,12 @@ import { observer } from "mobx-react";
 import { Controls } from "./components/Controls";
 import { InputOverlay, OVERLAY_ID } from "./components/InputOverlay";
 import { AlgorithmControls } from "./components/AlgorithmControls";
+import SyntaxHighlighter from "react-syntax-highlighter";
+import { stackoverflowDark } from "react-syntax-highlighter/dist/esm/styles/hljs";
+import { Box, IconButton } from "@chakra-ui/react";
+import { BiX } from "react-icons/bi";
+import { algorithms } from "../algorithms/algorithms";
+import { getAlgorithmSource } from "./utils/getAlgorithmSource";
 
 export interface IAppProps {
     workframe: Workframe;
@@ -21,6 +27,8 @@ function App({ workframe, appState }: IAppProps) {
         p5.setup = () => {
             p5.createCanvas(p5.windowWidth, p5.windowHeight, p5.P2D);
             appState.p5 = p5;
+
+            workframe.resetAlgorithm();
         };
 
         p5.draw = () => {
@@ -133,22 +141,43 @@ function App({ workframe, appState }: IAppProps) {
         };
     }
 
-    return (
-        <>
-            <div
-                style={{
-                    position: "absolute",
-                    inset: 0,
-                    zIndex: -1,
-                }}
-            >
-                <ReactP5Wrapper sketch={sketch} />
-            </div>
-            <InputOverlay appState={appState} />
-            <Controls workframe={workframe} appState={appState} />
-            <AlgorithmControls workframe={workframe} appState={appState} />
-        </>
-    );
+    if (appState.showCode && appState.selectedAlgorithm) {
+        return (
+            <Box bg="#141414" position="fixed" inset="0" overflowY="auto">
+                <SyntaxHighlighter
+                    language="typescript"
+                    style={stackoverflowDark}
+                >
+                    {getAlgorithmSource(algorithms[appState.selectedAlgorithm])}
+                </SyntaxHighlighter>
+                <IconButton
+                    position="fixed"
+                    top="20px"
+                    right="20px"
+                    aria-label="Close code view"
+                    icon={<BiX />}
+                    onClick={() => appState.toggleCode()}
+                />
+            </Box>
+        );
+    } else {
+        return (
+            <>
+                <div
+                    style={{
+                        position: "absolute",
+                        inset: 0,
+                        zIndex: -1,
+                    }}
+                >
+                    <ReactP5Wrapper sketch={sketch} />
+                </div>
+                <InputOverlay appState={appState} />
+                <Controls workframe={workframe} appState={appState} />
+                <AlgorithmControls workframe={workframe} appState={appState} />
+            </>
+        );
+    }
 }
 
 export default observer(App);

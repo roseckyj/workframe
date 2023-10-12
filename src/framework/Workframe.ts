@@ -110,4 +110,25 @@ export class Workframe {
         this.clearGeometries();
         this.algorithm.draw();
     }
+
+    public get colors() {
+        if (!this.appState.p5) {
+            throw new Error("P5 not initialized");
+        }
+        return {
+            default: this.appState.p5.color(100),
+            light: this.appState.p5.color(200),
+            muni: this.appState.p5.color(0, 0, 220),
+            law: this.appState.p5.color(145, 0, 220),
+            med: this.appState.p5.color(240, 25, 40),
+            sci: this.appState.p5.color(0, 175, 63),
+            fi: this.appState.p5.color(242, 212, 92),
+            fss: this.appState.p5.color(0, 122, 83),
+            fsps: this.appState.p5.color(90, 200, 175),
+            phil: this.appState.p5.color(75, 200, 255),
+            ped: this.appState.p5.color(255, 115, 0),
+            econ: this.appState.p5.color(185, 0, 110),
+            pharm: this.appState.p5.color(86, 120, 141),
+        };
+    }
 }

@@ -37,6 +37,17 @@ export class AppState {
     @observable
     public algorithmFinished: boolean = false;
 
+    @observable
+    public showCode: boolean = false;
+
+    @action
+    public toggleCode(): void {
+        runInAction(() => {
+            this.showCode = !this.showCode;
+            this.p5.resizeCanvas(this.p5.windowWidth, this.p5.windowHeight);
+        });
+    }
+
     @action
     public resetAlgorithmStep(): void {
         runInAction(() => {

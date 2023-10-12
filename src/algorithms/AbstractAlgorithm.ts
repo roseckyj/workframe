@@ -1,5 +1,8 @@
 import { Workframe } from "../framework/Workframe";
 
+/**
+ * Abstract class for algorithms.
+ */
 export abstract class AbstractAlgorithm {
     protected workframe: Workframe;
 

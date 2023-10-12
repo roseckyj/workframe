@@ -4,7 +4,11 @@ import { Polygon } from "../framework/types/Polygon";
 import { Ray } from "../framework/types/Ray";
 import { AbstractAlgorithm } from "./AbstractAlgorithm";
 
-export class ConvexHull extends AbstractAlgorithm {
+/**
+ * Implementation of the Gift wrapping Convex Hull algorithm
+ * Complexity: O(n^2)
+ */
+export class GiftWrapConvexHull extends AbstractAlgorithm {
     private currentPoint!: Point;
     private startPoint!: Point;
 
@@ -44,7 +48,9 @@ export class ConvexHull extends AbstractAlgorithm {
                 ? this.currentPoint.subtract(this.hull[this.hull.length - 1])
                 : new Point(1, 0)
         );
+        // <hide>
         this.workframe.addGeometry(ray);
+        // </hide>
 
         // Find the point with the smallest angle
         let rightMost = this.workframe.points[0];
@@ -55,9 +61,11 @@ export class ConvexHull extends AbstractAlgorithm {
             }
         }
 
+        // <hide>
         this.workframe.addGeometry(
             new Ray(this.currentPoint, rightMost.subtract(this.currentPoint))
         );
+        // </hide>
 
         // Add the point to the hull
         this.hull.push(this.currentPoint);
@@ -71,24 +79,21 @@ export class ConvexHull extends AbstractAlgorithm {
         return this.currentPoint === this.startPoint;
     }
 
+    // <hide>
     public draw(): void {
         this.workframe.addGeometry(...this.workframe.points);
         this.hull.forEach((point, index) => {
             if (index === 0) return;
             const nextPoint = this.hull[index - 1];
             this.workframe.addGeometry(
-                new Edge(
-                    point,
-                    nextPoint,
-                    this.workframe.appState.p5.color(242, 212, 92)
-                )
+                new Edge(point, nextPoint, this.workframe.colors.fi)
             );
         });
 
         this.workframe.addGeometry(
             ...this.hull.map((point) => {
                 point = point.copy();
-                point.color = this.workframe.appState.p5.color(242, 212, 92);
+                point.color = this.workframe.colors.fi;
                 return point;
             })
         );
@@ -98,11 +103,9 @@ export class ConvexHull extends AbstractAlgorithm {
             this.hull[0].equals(this.hull[this.hull.length - 1])
         ) {
             this.workframe.addGeometry(
-                new Polygon(
-                    this.hull,
-                    this.workframe.appState.p5.color(242, 212, 92)
-                )
+                new Polygon(this.hull, this.workframe.colors.fi)
             );
         }
     }
+    // </hide>
 }

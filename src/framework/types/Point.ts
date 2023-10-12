@@ -61,8 +61,8 @@ export class Point extends AbstractGeometry {
         return this.x === point.x && this.y === point.y;
     }
 
-    public copy(): Point {
-        return new Point(this.x, this.y);
+    public copy(color?: P5.Color): Point {
+        return new Point(this.x, this.y, color || this.color);
     }
 
     public toString(): string {

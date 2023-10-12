@@ -9,7 +9,13 @@ import {
     Spacer,
     Text,
 } from "@chakra-ui/react";
-import { BiPlay, BiRepeat, BiSkipNext, BiFastForward } from "react-icons/bi";
+import {
+    BiPlay,
+    BiRepeat,
+    BiSkipNext,
+    BiFastForward,
+    BiCodeCurly,
+} from "react-icons/bi";
 import { algorithms } from "../../algorithms/algorithms";
 
 interface IAlgorithmControlsProps {
@@ -77,6 +83,15 @@ export const AlgorithmControls = observer(function AlgorithmControls({
                         }
                         onClick={() => {
                             workframe.resetAlgorithm();
+                        }}
+                    />
+                    <Spacer mr={3} />
+                    <IconButton
+                        aria-label="View the source code"
+                        icon={<BiCodeCurly />}
+                        isDisabled={!appState.selectedAlgorithm}
+                        onClick={() => {
+                            appState.toggleCode();
                         }}
                     />
                 </HStack>

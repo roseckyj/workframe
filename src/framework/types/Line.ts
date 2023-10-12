@@ -4,7 +4,7 @@ import P5 from "p5";
 import { AppState } from "../AppState";
 import { transformToScreen } from "../utils/transformToScreen";
 
-export class Ray extends AbstractGeometry {
+export class Line extends AbstractGeometry {
     public start: Point;
     public direction: Point;
 
@@ -19,15 +19,20 @@ export class Ray extends AbstractGeometry {
         return this.direction.angleBetween(point.subtract(this.start));
     }
 
-    public deepCopy(): Ray {
-        return new Ray(this.start.copy(), this.direction.copy());
+    public deepCopy(color?: P5.Color): Line {
+        return new Line(
+            this.start.copy(),
+            this.direction.copy(),
+            color || this.color
+        );
     }
 
-    public copy(color?: P5.Color): Ray {
-        return new Ray(this.start, this.direction.copy(), color || this.color);
+    public copy(color?: P5.Color): Line {
+        return new Line(this.start, this.direction.copy(), color || this.color);
     }
 
-    public equals(edge: Ray): boolean {
+    public equals(edge: Line): boolean {
+        // TODO: This is not correct
         return (
             this.start.equals(edge.start) &&
             this.direction.equals(edge.direction)
@@ -35,12 +40,16 @@ export class Ray extends AbstractGeometry {
     }
 
     public toString(): string {
-        return `${this.start.toString()} |-> ${this.direction.toString()}`;
+        return `${this.start.toString()} <-> ${this.direction.toString()}`;
     }
 
     public draw(p5: P5, appState: AppState) {
         const start = transformToScreen(
-            appState.transform(this.start.toP5Vector()),
+            appState.transform(
+                this.start
+                    .subtract(this.direction.multiply(1000000))
+                    .toP5Vector()
+            ),
             p5
         );
 
