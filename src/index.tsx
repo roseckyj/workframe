@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import App from "./framework/App";
 import { Workframe, WorkframeConfig } from "./framework/Workframe";
 import { ConvexHull } from "./algorithms/ConvexHull";
-import { ChakraProvider } from "@chakra-ui/react";
+import { ChakraProvider, ColorModeScript, theme } from "@chakra-ui/react";
 import { algorithms } from "./algorithms/algorithms";
 
 const config: WorkframeConfig = {
@@ -23,7 +23,7 @@ const root = ReactDOM.createRoot(
 );
 
 root.render(
-    <ChakraProvider>
+    <ChakraProvider theme={theme}>
         <App workframe={workframe} appState={appState} />
     </ChakraProvider>
 );

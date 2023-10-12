@@ -11,6 +11,7 @@ export class ConvexHull extends AbstractAlgorithm {
     private hull: Point[] = [];
 
     public setup(): boolean {
+        // Solve the trivial cases
         if (this.workframe.points.length === 0) {
             return true;
         }
@@ -20,6 +21,7 @@ export class ConvexHull extends AbstractAlgorithm {
             return true;
         }
 
+        // Find the starting point with the highest y value
         let currentY = this.workframe.points[0].y;
         this.currentPoint = this.workframe.points[0];
         for (const point of this.workframe.points) {
@@ -30,10 +32,12 @@ export class ConvexHull extends AbstractAlgorithm {
         }
 
         this.startPoint = this.currentPoint;
+
         return false;
     }
 
     public step(): boolean {
+        //Measure the angle from this ray to each point
         const ray = new Ray(
             this.currentPoint,
             this.hull.length > 0
@@ -42,20 +46,24 @@ export class ConvexHull extends AbstractAlgorithm {
         );
         this.workframe.addGeometry(ray);
 
-        const sorted = this.workframe.points
-            .filter(
-                (point) =>
-                    this.hull.indexOf(point) <= 0 && point !== this.currentPoint
-            )
-            .sort((a, b) => ray.angleTo(b) - ray.angleTo(a));
+        // Find the point with the smallest angle
+        let rightMost = this.workframe.points[0];
+        for (const point of this.workframe.points) {
+            if (point === this.currentPoint) continue;
+            if (ray.angleTo(point) > ray.angleTo(rightMost)) {
+                rightMost = point;
+            }
+        }
 
         this.workframe.addGeometry(
-            new Ray(this.currentPoint, sorted[0].subtract(this.currentPoint))
+            new Ray(this.currentPoint, rightMost.subtract(this.currentPoint))
         );
 
+        // Add the point to the hull
         this.hull.push(this.currentPoint);
-        this.currentPoint = sorted[0];
+        this.currentPoint = rightMost;
 
+        // Check if we are back at the start
         if (this.currentPoint === this.startPoint) {
             this.hull.push(this.currentPoint);
         }
@@ -64,8 +72,6 @@ export class ConvexHull extends AbstractAlgorithm {
     }
 
     public draw(): void {
-        console.log("Draw");
-
         this.workframe.addGeometry(...this.workframe.points);
         this.hull.forEach((point, index) => {
             if (index === 0) return;
