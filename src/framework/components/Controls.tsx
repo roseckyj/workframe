@@ -1,18 +1,20 @@
+import { IconButton, Spacer, VStack } from "@chakra-ui/react";
 import { observer } from "mobx-react";
-import { AppState, Tool } from "../AppState";
-import { Workframe } from "../Workframe";
-import { VStack, IconButton, Spacer } from "@chakra-ui/react";
 import {
+    BiDice5,
     BiHome,
-    BiPlus,
     BiMinus,
+    BiMove,
+    BiPlus,
+    BiShapePolygon,
     BiSolidHand,
     BiSolidMap,
-    BiX,
-    BiDice5,
     BiTrash,
-    BiMove,
+    BiX,
 } from "react-icons/bi";
+import { GiftWrapConvexHull } from "../../algorithms/GiftWrapConvexHull";
+import { AppState, Tool } from "../AppState";
+import { Workframe } from "../Workframe";
 import { randomPoints } from "../utils/randomPoints";
 
 interface IControlsProps {
@@ -92,6 +94,21 @@ export const Controls = observer(function Controls({
                         workframe.resetAlgorithm();
                     }}
                 />
+                <IconButton
+                    aria-label="Random polygon"
+                    icon={<BiShapePolygon />}
+                    onClick={() => {
+                        workframe.points = randomPoints(30, 500);
+                        const algorithm = workframe.appState.selectedAlgorithm;
+                        workframe.setAlgorithm("Convex Hull (Gift wrapping)");
+                        workframe.run();
+                        const hull = (workframe.algorithm as GiftWrapConvexHull)
+                            .hull;
+                        workframe.points = hull.slice(0, hull.length - 2);
+                        workframe.setAlgorithm(algorithm!);
+                    }}
+                />
+                <Spacer mt={6} />
                 <IconButton
                     aria-label="Clear screen"
                     icon={<BiTrash />}

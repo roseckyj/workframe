@@ -12,7 +12,7 @@ export class GiftWrapConvexHull extends AbstractAlgorithm {
     private currentPoint!: Point;
     private startPoint!: Point;
 
-    private hull: Point[] = [];
+    public hull: Point[] = [];
 
     public setup(): boolean {
         // Solve the trivial cases
@@ -53,7 +53,10 @@ export class GiftWrapConvexHull extends AbstractAlgorithm {
         // </hide>
 
         // Find the point with the smallest angle
-        let rightMost = this.workframe.points[0];
+        let rightMost =
+            this.currentPoint === this.workframe.points[0]
+                ? this.workframe.points[1]
+                : this.workframe.points[0];
         for (const point of this.workframe.points) {
             if (point === this.currentPoint) continue;
             if (ray.angleTo(point) > ray.angleTo(rightMost)) {

@@ -1,10 +1,10 @@
+import P5 from "p5";
 import { AbstractAlgorithm } from "../algorithms/AbstractAlgorithm";
+import { algorithms } from "../algorithms/algorithms";
 import { AppState } from "./AppState";
 import { AbstractGeometry } from "./types/AbstractGeometry";
-import P5 from "p5";
-import { Point } from "./types/Point";
 import { Edge } from "./types/Edge";
-import { algorithms } from "../algorithms/algorithms";
+import { Point } from "./types/Point";
 
 export type WorkframeConfig = {
     grid: {
@@ -53,7 +53,7 @@ export class Workframe {
     }
 
     // Algorithm
-    private algorithm: AbstractAlgorithm | null = null;
+    public algorithm: AbstractAlgorithm | null = null;
 
     public setAlgorithm(algorithm: string): void {
         this.appState.setSelectedAlgorithm(algorithm);
@@ -104,7 +104,7 @@ export class Workframe {
         }
 
         do {
-            this.appState.algorithmStep++;
+            this.appState.incrementAlgorithmStep();
         } while (!this.algorithm.step());
 
         this.appState.setAlgorithmFinished(true);
