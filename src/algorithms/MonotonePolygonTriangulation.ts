@@ -63,19 +63,22 @@ export class MonotonePolygonTriangulation extends AbstractAlgorithm {
     public step(): boolean {
         const currentPoint = this.sorted[this.currentPointIndex];
 
-        if (currentPoint.path === this.stack[this.stack.length - 1].path) {
+        if (
+            currentPoint.path === this.stack[this.stack.length - 1].path ||
+            this.currentPointIndex === this.sorted.length - 1
+        ) {
             // The point and the top of the stack are on the same path
             // Pop the other vertices from stack as long as the diagonals from current to them are inside the polygon
             let lastPopped = this.stack.pop();
             while (
+                this.stack.length > 0 &&
                 this.edgeFunction(
                     currentPoint.point,
                     this.stack[this.stack.length - 1].point,
                     lastPopped!.point
                 ) *
-                    (currentPoint.path === "left" ? -1 : 1) >
-                    0 &&
-                this.stack.length > 1
+                    (lastPopped!.path === "right" ? -1 : 1) <
+                    0
             ) {
                 this.edges.push(
                     new Edge(
@@ -92,7 +95,7 @@ export class MonotonePolygonTriangulation extends AbstractAlgorithm {
         } else {
             // The point and the top of the stack are on different paths
             // Insert diagonals from all the stacked vertices except for the bottom one
-            for (let i = this.stack.length - 1; i > 0; i--) {
+            for (let i = this.stack.length - 1; i >= 0; i--) {
                 this.edges.push(
                     new Edge(
                         currentPoint.point,
@@ -120,6 +123,17 @@ export class MonotonePolygonTriangulation extends AbstractAlgorithm {
     public draw(): void {
         // Draw all the edges
         this.workframe.addGeometry(...this.edges);
+
+        // // Draw the correctly colored vertices
+        // this.sorted.forEach((point) => {
+        //     this.workframe.addGeometry(
+        //         point.point.copy(
+        //             point.path === "left"
+        //                 ? this.workframe.colors.med
+        //                 : this.workframe.colors.sci
+        //         )
+        //     );
+        // });
 
         // Draw the processed vertices
         this.sorted
