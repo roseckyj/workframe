@@ -84,7 +84,6 @@ export class GiftWrapConvexHull extends AbstractAlgorithm {
 
     // <hide>
     public draw(): void {
-        this.workframe.addGeometry(...this.workframe.points);
         this.hull.forEach((point, index) => {
             if (index === 0) return;
             const nextPoint = this.hull[index - 1];

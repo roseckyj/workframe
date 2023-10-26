@@ -108,8 +108,6 @@ export class SweepLineConvexHull extends AbstractAlgorithm {
 
     // <hide>
     public draw(): void {
-        this.workframe.addGeometry(...this.workframe.points);
-
         // Draw lines
         this.workframe.addGeometry(
             ...drawPolyline(false, this.workframe.colors.phil, this.upperHull)

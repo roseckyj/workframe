@@ -47,6 +47,20 @@ export class Workframe {
             this.run();
         }
 
+        if (this.appState.showPolygon) {
+            for (let i = 0; i < this.points.length; i++) {
+                new Edge(
+                    this.points[i],
+                    this.points[(i + 1) % this.points.length],
+                    this.colors.dark
+                ).draw(p5, this.appState);
+            }
+        }
+
+        this.points.forEach((geometry) => {
+            geometry.draw(p5, this.appState);
+        });
+
         this.geometries.forEach((geometry) => {
             geometry.draw(p5, this.appState);
         });
@@ -118,6 +132,7 @@ export class Workframe {
             throw new Error("P5 not initialized");
         }
         return {
+            dark: this.appState.p5.color(50),
             default: this.appState.p5.color(100),
             light: this.appState.p5.color(200),
             muni: this.appState.p5.color(0, 0, 220),

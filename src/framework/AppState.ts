@@ -40,6 +40,16 @@ export class AppState {
     @observable
     public showCode: boolean = false;
 
+    @observable
+    public showPolygon: boolean = true;
+
+    @action
+    public toggleShowPolygon(): void {
+        runInAction(() => {
+            this.showPolygon = !this.showPolygon;
+        });
+    }
+
     @action
     public toggleCode(): void {
         runInAction(() => {

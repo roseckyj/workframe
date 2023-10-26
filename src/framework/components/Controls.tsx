@@ -50,6 +50,14 @@ export const Controls = observer(function Controls({
                         appState.zoom(-0.1 * appState.scale);
                     }}
                 />
+                <IconButton
+                    aria-label="Connect polygon"
+                    icon={<BiShapePolygon />}
+                    colorScheme={appState.showPolygon ? "blue" : "gray"}
+                    onClick={() => {
+                        appState.toggleShowPolygon();
+                    }}
+                />
                 <Spacer mt={6} />
                 <IconButton
                     aria-label="Pan"
