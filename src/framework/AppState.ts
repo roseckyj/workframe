@@ -41,7 +41,7 @@ export class AppState {
     public showCode: boolean = false;
 
     @observable
-    public showPolygon: boolean = true;
+    public showPolygon: boolean = false;
 
     @action
     public toggleShowPolygon(): void {
