@@ -38,10 +38,11 @@ export class MonotonePolygonTriangulation extends AbstractAlgorithm {
         });
 
         // Mark the points as left or right path (since we do not have the doubly connected edge list)
-        const sortedByX = [...this.workframe.points].sort((a, b) => a.y - b.y);
-        const top = sortedByX[0];
-        const bottom = sortedByX[sortedByX.length - 1];
-        let [right, left] = splitPolygon(this.workframe.points, top, bottom);
+        const sortedByY = [...this.workframe.points].sort((a, b) => a.y - b.y);
+        const top = sortedByY[0];
+        const bottom = sortedByY[sortedByY.length - 1];
+        let [left, right] = splitPolygon(this.workframe.points, top, bottom);
+        console.log(left, right);
         const markedPoints: MarkedPoint[] = [
             ...left.map((point) => ({ point, path: "left" } as MarkedPoint)),
             ...right.map((point) => ({ point, path: "right" } as MarkedPoint)),
@@ -74,10 +75,10 @@ export class MonotonePolygonTriangulation extends AbstractAlgorithm {
                 this.stack.length > 0 &&
                 this.edgeFunction(
                     currentPoint.point,
-                    this.stack[this.stack.length - 1].point,
-                    lastPopped!.point
+                    lastPopped!.point,
+                    this.stack[this.stack.length - 1].point
                 ) *
-                    (lastPopped!.path === "right" ? -1 : 1) <
+                    (lastPopped!.path === "right" ? -1 : 1) >
                     0
             ) {
                 this.edges.push(
