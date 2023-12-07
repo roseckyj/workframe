@@ -1,8 +1,8 @@
-import { AbstractGeometry } from "./AbstractGeometry";
-import { Point } from "./Point";
 import P5 from "p5";
 import { AppState } from "../AppState";
 import { transformToScreen } from "../utils/transformToScreen";
+import { AbstractGeometry } from "./AbstractGeometry";
+import { Point } from "./Point";
 
 export class Edge extends AbstractGeometry {
     public start: Point;
@@ -31,6 +31,10 @@ export class Edge extends AbstractGeometry {
         return new Edge(this.start, this.end, color || this.color);
     }
 
+    public reverse(): Edge {
+        return new Edge(this.end, this.start, this.color);
+    }
+
     public equals(edge: Edge): boolean {
         return this.start.equals(edge.start) && this.end.equals(edge.end);
     }
@@ -54,5 +58,23 @@ export class Edge extends AbstractGeometry {
         p5.strokeWeight(2);
         p5.noFill();
         p5.line(start.x, start.y, end.x, end.y);
+
+        // Draw an arrow
+        const direction = this.end.subtract(this.start).normalize();
+        const arrowStart = this.end.subtract(direction.multiply(20));
+
+        p5.strokeWeight(8);
+        p5.line(
+            transformToScreen(appState.transform(arrowStart.toP5Vector()), p5)
+                .x,
+            transformToScreen(appState.transform(arrowStart.toP5Vector()), p5)
+                .y,
+            end.x,
+            end.y
+        );
+    }
+
+    public valueof(): string {
+        return `${this.start.toString()} -> ${this.end.toString()}`;
     }
 }

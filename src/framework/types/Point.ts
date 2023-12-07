@@ -1,7 +1,7 @@
 import * as P5 from "p5";
-import { AbstractGeometry } from "./AbstractGeometry";
 import { AppState } from "../AppState";
 import { transformToScreen } from "../utils/transformToScreen";
+import { AbstractGeometry } from "./AbstractGeometry";
 
 export class Point extends AbstractGeometry {
     public x: number;
@@ -86,5 +86,8 @@ export class Point extends AbstractGeometry {
         p5.noStroke();
         p5.fill(this.color || p5.color(100));
         p5.circle(transformed.x, transformed.y, 10);
+    }
+    public valueof(): string {
+        return `(${this.x}, ${this.y})`;
     }
 }

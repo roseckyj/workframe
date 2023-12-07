@@ -51,7 +51,7 @@ export class BuildKdTree extends AbstractAlgorithm {
 
     public step(): boolean {
         // This algorithm is recursive -> solved in the first pass
-        this.tree = this.buildKdTree(this.workframe.points, 0);
+        this.tree = this.buildKdTree([...this.workframe.points], 0);
         console.log(this.tree);
         return true;
     }

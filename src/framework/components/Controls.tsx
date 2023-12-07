@@ -2,10 +2,12 @@ import { IconButton, Spacer, VStack } from "@chakra-ui/react";
 import { observer } from "mobx-react";
 import {
     BiDice5,
+    BiFolderOpen,
     BiHome,
     BiMinus,
     BiMove,
     BiPlus,
+    BiSave,
     BiShapePolygon,
     BiSolidHand,
     BiSolidMap,
@@ -15,6 +17,7 @@ import {
 import { GiftWrapConvexHull } from "../../algorithms/GiftWrapConvexHull";
 import { AppState, Tool } from "../AppState";
 import { Workframe } from "../Workframe";
+import { Point } from "../types/Point";
 import { randomPoints } from "../utils/randomPoints";
 
 interface IControlsProps {
@@ -117,6 +120,33 @@ export const Controls = observer(function Controls({
                     }}
                 />
                 <Spacer mt={6} />
+                <IconButton
+                    aria-label="Save points"
+                    icon={<BiSave />}
+                    onClick={() => {
+                        localStorage.setItem(
+                            "points",
+                            JSON.stringify(workframe.points)
+                        );
+                    }}
+                />
+                <IconButton
+                    aria-label="Load points"
+                    icon={<BiFolderOpen />}
+                    onClick={() => {
+                        const points = localStorage.getItem("points");
+                        if (points) {
+                            workframe.points = JSON.parse(points).map(
+                                (point: any) => {
+                                    const pt = new Point(point.x, point.y);
+                                    Object.assign(pt, point);
+                                    return pt;
+                                }
+                            );
+                            workframe.resetAlgorithm();
+                        }
+                    }}
+                />
                 <IconButton
                     aria-label="Clear screen"
                     icon={<BiTrash />}
